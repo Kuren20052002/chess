@@ -1,4 +1,9 @@
 require_relative "pawn"
+require_relative "rook"
+require_relative "knight"
+require_relative "bishop"
+require_relative "queen"
+require_relative "king"
 
 class Board
   attr_reader :squares
@@ -9,6 +14,11 @@ class Board
 
   def place_piece
     place_pawns
+    place_rooks
+    place_horses
+    place_bishops
+    place_queens
+    place_kings
   end
 
   def [](row, column = nil)
@@ -23,6 +33,41 @@ class Board
       (0..7).each do |column|
         @squares[row][column] = Pawn.new(row, column, side)
       end
+    end
+  end
+
+  def place_rooks
+    [[0, 0], [0, 7], [7, 0], [7, 7]].each do |row, column|
+      side = row == 0 ? "white" : "black"
+      @squares[row][column] = Rook.new(row, column, side)
+    end
+  end
+
+  def place_bishops
+    [[0, 2], [0, 5], [7, 2], [7, 5]].each do |row, column|
+      side = row == 0 ? "white" : "black"
+      @squares[row][column] = Bishop.new(row, column, side)
+    end
+  end
+
+  def place_horses
+    [[0, 1], [0, 6], [7, 1], [7, 6]].each do |row, column|
+      side = row == 0 ? "white" : "black"
+      @squares[row][column] = Knight.new(row, column, side)
+    end
+  end
+
+  def place_queens
+    [[0, 3], [7, 3]].each do |row, column|
+      side = row == 0 ? "white" : "black"
+      @squares[row][column] = Queen.new(row, column, side)
+    end
+  end
+
+  def place_kings
+    [[0, 4], [7, 4]].each do |row, column|
+      side = row == 0 ? "white" : "black"
+      @squares[row][column] = King.new(row, column, side)
     end
   end
 end
