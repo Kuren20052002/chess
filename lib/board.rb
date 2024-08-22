@@ -21,11 +21,12 @@ class Board
     place_kings
   end
 
-  def display
+  def display(side = "white")
     puts "\n\n    a   b   c   d   e   f   g   h  "
     puts "   +---+---+---+---+---+---+---+---+"
-    @squares.each_with_index do |row, idx|
-      row_string = "#{idx}  "
+    rows = side == "white" ? @squares.reverse : @squares
+    rows.each_with_index do |row, idx|
+      row_string = side == "white" ? "#{8 - idx}  " : "#{idx + 1}  "
       row.each do |piece|
         row_string << "| #{piece} "
       end
@@ -84,7 +85,3 @@ class Board
     end
   end
 end
-
-board = Board.new
-board.place_piece
-board.display
