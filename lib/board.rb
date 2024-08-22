@@ -8,7 +8,7 @@ require_relative "king"
 class Board
   attr_reader :squares
 
-  def initialize(board = Array.new(8) { Array.new(8, nil) })
+  def initialize(board = Array.new(8) { Array.new(8, " ") })
     @squares = board
   end
 
@@ -19,6 +19,19 @@ class Board
     place_bishops
     place_queens
     place_kings
+  end
+
+  def display
+    puts "\n\n    a   b   c   d   e   f   g   h  "
+    puts "   +---+---+---+---+---+---+---+---+"
+    @squares.each_with_index do |row, idx|
+      row_string = "#{idx}  "
+      row.each do |piece|
+        row_string << "| #{piece} "
+      end
+      puts "#{row_string}|"
+      puts "   +---+---+---+---+---+---+---+---+"
+    end
   end
 
   def [](row, column = nil)
@@ -71,3 +84,7 @@ class Board
     end
   end
 end
+
+board = Board.new
+board.place_piece
+board.display
