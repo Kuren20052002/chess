@@ -11,6 +11,10 @@ class Piece
     piece.side != @side
   end
 
+  def legal_moves
+    raise NoMethodError("Override this implementation")
+  end
+
   def valid_move?
     raise NoMethodError("Override this implementation")
   end
