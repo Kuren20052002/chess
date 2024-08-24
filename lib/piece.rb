@@ -1,9 +1,17 @@
 class Piece
-  attr_accessor :x, :y
+  attr_accessor :row, :column, :side
 
   def initialize(row, column, side)
-    @x = column
-    @y = row
+    @column = column
+    @row = row
     @side = side
+  end
+
+  def capturable?(piece)
+    piece.side != @side
+  end
+
+  def valid_move?
+    raise NoMethodError("Override this implementation")
   end
 end

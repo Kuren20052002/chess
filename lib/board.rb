@@ -25,14 +25,14 @@ class Board
     row1, col1 = pos1
     row2, col2 = pos2
     piece = @squares[row1][col1]
-    piece.x = col2
-    piece.y = row2
+    piece.column = col2
+    piece.row = row2
     @squares[row2][col2] = piece
     @squares[row1][col1] = " "
   end
 
   def display(side = "white")
-    puts "\n\n    a   b   c   d   e   f   g   h  "
+    puts "\n\n     a   b   c   d   e   f   g   h  "
     puts "   +---+---+---+---+---+---+---+---+"
     rows = side == "white" ? @squares.reverse : @squares
     rows.each_with_index do |row, idx|
