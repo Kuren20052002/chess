@@ -6,9 +6,15 @@ class Knight < Piece
   end
 
   def legal_moves
-    legal_moves = @moveset.map do |row, column|
-      [(@row + row), (@column + column)]
+    legal_moves = []
+    @moveset.each do |row, column|
+      result_row = @row + row
+      result_column = @column + column
+      next if result_row < 0 || result_row > 7 || result_column < 0 || result_column > 7
+
+      legal_moves << [result_row, result_column]
     end
+    legal_moves
   end
 
   def valid_move?(move, board)

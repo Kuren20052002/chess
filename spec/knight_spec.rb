@@ -6,8 +6,8 @@ describe Knight do
       subject(:white_knight) { described_class.new(0, 1, "white") }
       subject(:black_knight) { described_class.new(7, 6, "black") }
       it "can jump around" do
-        expect(white_knight.legal_moves).to include([2, 0], [2, 2], [1, -1], [1, 3])
-        expect(black_knight.legal_moves).to include([5, 5], [5, 7], [6, 4], [6, 8])
+        expect(white_knight.legal_moves).to include([2, 0], [2, 2], [1, 3])
+        expect(black_knight.legal_moves).to include([5, 5], [5, 7], [6, 4])
       end
     end
   end
