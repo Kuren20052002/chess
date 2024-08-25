@@ -61,10 +61,33 @@ describe Board do
       expect(board_move[3][0]).to be_instance_of(Pawn)
     end
 
-    it "move a quen" do
+    it "move a queen" do
       board_move[0][3] = Queen.new(0, 3, "white")
       board_move.move_piece([0, 3], [4, 7])
       expect(board_move[4][7]).to be_instance_of(Queen)
+    end
+  end
+
+  describe "#check?" do
+    subject(:board_check) { described_class.new }
+    before do
+      board_check.place_queens
+      board_check.place_rooks
+    end
+    context "when there is a queen eyeing him" do
+      let(:white_king) { King.new(4, 6, "white") }
+      it "return true" do
+        result = board_check.check?([white_king.row, white_king.column], "white")
+        expect(result).to be true
+      end
+    end
+
+    context "when there is nothing eyeing him" do
+      let(:white_king) { King.new(5, 2, "white") }
+      it "return false" do
+        result = board_check.check?([white_king.row, white_king.column], "white")
+        expect(result).to be false
+      end
     end
   end
 end

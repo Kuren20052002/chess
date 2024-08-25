@@ -45,11 +45,20 @@ class Board
     end
   end
 
+  def check?(move, side)
+    @squares.each do |row|
+      row.each do |piece|
+        next if piece == " " || piece.side == side || piece.instance_of?(King)
+
+        return true if piece.valid_move?(move, self)
+      end
+    end
+    false
+  end
+
   def [](row, column = nil)
     column ? @squares[row][column] : @squares[row]
   end
-
-  private
 
   def place_pawns
     [1, 6].each do |row|
@@ -82,16 +91,12 @@ class Board
   end
 
   def place_queens
-    [[0, 3], [7, 3]].each do |row, column|
-      side = row == 0 ? "white" : "black"
-      @squares[row][column] = Queen.new(row, column, side)
-    end
+    @squares[0][3] = Queen.new(0, 3, "white")
+    @squares[7][3] = Queen.new(7, 3, "black")
   end
 
   def place_kings
-    [[0, 4], [7, 4]].each do |row, column|
-      side = row == 0 ? "white" : "black"
-      @squares[row][column] = King.new(row, column, side)
-    end
+    @squares[0][4] = King.new(0, 4, "white")
+    @squares[7][4] = King.new(7, 4, "black")
   end
 end
