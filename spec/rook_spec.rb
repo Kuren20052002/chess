@@ -16,6 +16,12 @@ describe Rook do
         expect(white_rook.valid_move?([2, 4], board)).to be true
         expect(white_rook.valid_move?([4, 7], board)).to be true
       end
+
+      it "return false when move is invalid" do
+        expect(white_rook.valid_move?([3, 0], board)).to be false
+        expect(white_rook.valid_move?([2, 1], board)).to be false
+        expect(white_rook.valid_move?([5, 3], board)).to be false
+      end
     end
 
     context "When there are pieces on the path" do

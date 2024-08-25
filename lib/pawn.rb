@@ -1,5 +1,7 @@
 require_relative "piece"
 class Pawn < Piece
+  attr_reader :en_passantable
+
   def initialize(row, column, side)
     super
     @en_passantable = false
