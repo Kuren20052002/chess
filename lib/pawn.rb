@@ -23,7 +23,7 @@ class Pawn < Piece
 
       result = true if move == [row, column] && board[row][column] != " " && board[row][column].side != @side
     end
-    @en_passantable = move == avaiable_move[1]
+    @en_passantable = move == avaiable_move[1] if result
     result
   end
 
