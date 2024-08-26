@@ -34,8 +34,7 @@ class Board
   end
 
   def display(side = "white")
-    puts "\n\n     a   b   c   d   e   f   g   h  "
-    puts "   +---+---+---+---+---+---+---+---+"
+    puts "\n\n   +---+---+---+---+---+---+---+---+"
     rows = side == "white" ? @squares.reverse : @squares
     rows.each_with_index do |row, idx|
       row_string = side == "white" ? "#{8 - idx}  " : "#{idx + 1}  "
@@ -45,6 +44,7 @@ class Board
       puts "#{row_string}|"
       puts "   +---+---+---+---+---+---+---+---+"
     end
+    puts "     a   b   c   d   e   f   g   h  "
   end
 
   def check?(move, side)
