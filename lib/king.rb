@@ -19,10 +19,15 @@ class King < Piece
   end
 
   def valid_move?(move, board)
-    return false if board.check?(move, @side)
+    board_copy = board.deep_copy
+    board_copy.move_piece([@row, @column], move) if board[move[0]]
+    return false if board_copy.check?(move, @side)
 
+    result = false
     moves = legal_moves
     moves.each do |row, column|
+      next if result
+
       return true if move == [row, column] && (board[row][column] == " " || board[row][column].side != @side)
     end
     false

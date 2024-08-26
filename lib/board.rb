@@ -6,7 +6,7 @@ require_relative "queen"
 require_relative "king"
 
 class Board
-  attr_reader :squares
+  attr_reader :squares, :white_king, :black_king
 
   def initialize(board = Array.new(8) { Array.new(8, " ") })
     @squares = board
@@ -24,10 +24,12 @@ class Board
   def move_piece(pos1, pos2)
     row1, col1 = pos1
     row2, col2 = pos2
-    piece = @squares[row1][col1]
-    piece.column = col2
-    piece.row = row2
-    @squares[row2][col2] = piece
+    if @squares[row1][col1] != " "
+      piece = @squares[row1][col1]
+      piece.column = col2
+      piece.row = row2
+      @squares[row2][col2] = piece
+    end
     @squares[row1][col1] = " "
   end
 
@@ -46,18 +48,27 @@ class Board
   end
 
   def check?(move, side)
-    @squares.each do |row|
-      row.each do |piece|
-        next if piece == " " || piece.side == side || piece.instance_of?(King)
-
-        return true if piece.valid_move?(move, self)
-      end
+    opposite_pieces = side == "white" ? pieces("black") : pieces("white")
+    opposite_pieces.each do |piece|
+      return true if piece.valid_move?(move, self)
     end
     false
   end
 
   def [](row, column = nil)
     column ? @squares[row][column] : @squares[row]
+  end
+
+  def pieces(side)
+    pieces = []
+    @squares.each do |row|
+      row.each do |piece|
+        next if piece == " " || piece.side != side
+
+        pieces << piece
+      end
+    end
+    pieces
   end
 
   def place_pawns
@@ -96,7 +107,13 @@ class Board
   end
 
   def place_kings
-    @squares[0][4] = King.new(0, 4, "white")
-    @squares[7][4] = King.new(7, 4, "black")
+    @white_king = King.new(0, 4, "white")
+    @black_king = King.new(7, 4, "black")
+    @squares[0][4] = @white_king
+    @squares[7][4] = @black_king
+  end
+
+  def deep_copy
+    Marshal.load(Marshal.dump(self))
   end
 end
