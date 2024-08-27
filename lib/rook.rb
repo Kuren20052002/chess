@@ -19,7 +19,7 @@ class Rook < Piece
         break if row < 0 || row > 7 || column < 0 || column > 7
 
         if move == [row, column] && (board[row][column] == " " || board[row][column].side != side)
-          @moved = true if result
+          @moved = true
           return true
         end
         break if board[row][column] != " " # break if there is a piece in the way and not the intended move
