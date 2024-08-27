@@ -55,6 +55,16 @@ class Board
     false
   end
 
+  def castle_long
+    move_piece([0, 4], [0, 2])
+    move_piece([0, 0], [0, 3])
+  end
+
+  def castle_short
+    move_piece([0, 4], [0, 6])
+    move_piece([0, 7], [0, 5])
+  end
+
   def [](row, column = nil)
     column ? @squares[row][column] : @squares[row]
   end

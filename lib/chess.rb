@@ -94,6 +94,21 @@ class Chess
     puts board_copy.check?(king_pos, side)
   end
 
+  def can_casle?(castle_side)
+    range_start, range_end = castle_side == "long" ? [1, 3] : [5, 6]
+    rook_column = castle_side == "long" ? 0 : 7
+    king = @current_player.side == "white" ? @board.white_king : @board.black_king
+    rook = @board[king.row][rook_column]
+
+    return false unless king.moved && rook.moved
+
+    (range_start..range_end).each do |column|
+      return false if @board[king.row][column] != " " ||
+                      (column != 1 && @board.check?([king.row, column], @current_player.side))
+    end
+    true
+  end
+
   def change_turn
     @current_player = @current_player == @white_player ? @black_player : @white_player
   end
