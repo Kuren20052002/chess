@@ -1,8 +1,10 @@
 require_relative "piece"
 class King < Piece
+  attr_reader :moveds
+
   def initialize(row, column, side)
     super
-    @castleabale = true
+    @moved = false
   end
 
   def legal_moves
@@ -28,7 +30,10 @@ class King < Piece
     moves.each do |row, column|
       next if result
 
-      return true if move == [row, column] && (board[row][column] == " " || board[row][column].side != @side)
+      if move == [row, column] && (board[row][column] == " " || board[row][column].side != side)
+        @moved = true if result
+        return true
+      end
     end
     false
   end
