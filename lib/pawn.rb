@@ -1,5 +1,4 @@
 require_relative "piece"
-require "pry-byebug"
 class Pawn < Piece
   attr_accessor :en_passantable
 
@@ -57,7 +56,6 @@ class Pawn < Piece
   def check_enpassant(move, board)
     left_adjacent = board[move[0]][move[1] - 1]
     right_adjacent = board[move[0]][move[1] + 1]
-    row_end = @side == "white" ? 3 : 4
 
     is_adjacent_pawn = left_adjacent.instance_of?(Pawn) || right_adjacent.instance_of?(Pawn)
     is_left_same_side = left_adjacent == " " ? false : left_adjacent.side != @side
