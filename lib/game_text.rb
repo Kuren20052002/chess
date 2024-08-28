@@ -1,10 +1,15 @@
 module GameMessages
   # Introduction message when the game starts
   INTRODUCTION = <<~INTRO
-    Welcome to the Chess game!
-    In this game, you'll be playing a another player.
-    Each player starts with 16 pieces, and the objective is to checkmate your opponent's king.
+    Welcome to Chess!
+
+    In this game, you'll compete against another player. Each player starts with 16 pieces, and the goal is to checkmate your opponent's king.
+
     Let's get started!
+
+    Please choose an option:
+    1 - Start a new game
+    2 - Load an existing game
   INTRO
 
   # Instructions for the player
