@@ -54,8 +54,10 @@ class Pawn < Piece
   end
 
   def check_enpassant(move, board)
-    left_adjacent = board[move[0]][move[1] - 1]
-    right_adjacent = board[move[0]][move[1] + 1]
+    left_adjacent = (move[1] - 1).between?(0, 7) ? board[move[0]][move[1] - 1] : " "
+    right_adjacent = (move[1] + 1).between?(0, 7) ? board[move[0]][move[1] + 1] : " "
+
+    return false if left_adjacent.nil? || right_adjacent.nil?
 
     is_adjacent_pawn = left_adjacent.instance_of?(Pawn) || right_adjacent.instance_of?(Pawn)
     is_left_same_side = left_adjacent == " " ? false : left_adjacent.side != @side
