@@ -72,7 +72,7 @@ class Chess
 
       opponent_side = @current_player.side == "white" ? "black" : "white"
 
-      return end_game if stalemate?(@current_player.side) || checkmate?(opponent_side)
+      return end_game(opponent_side) if stalemate?(@current_player.side) || checkmate?(opponent_side)
 
       change_turn
     end
@@ -159,18 +159,16 @@ class Chess
 
   # this fuction is for checking the state of board if a move is made
   def check_for_check_if(moves, side)
-    king = side == "white" ? @board.white_king : @board.black_king
-    king_pos = [king.row, king.column]
     board_copy = @board.deep_copy
     board_copy.move_piece(moves[0], moves[1])
-    board_copy.check?(king_pos, side)
+    board_copy.check?(moves[1], side)
   end
 
   def en_passant?(move)
-    opponent_piece_height = @current_player.side == "white" ? -1 : 1
+    opponent_piece_height = @current_player.side == "white" ? move[0] - 1 : move[0] + 1
     move_to_empty_square = @board[move[0]][move[1]] == " "
-    is_opponent_side_pawn = @board[move[0] + opponent_piece_height][move[1]].instance_of?(Pawn) &&
-                            @board[move[0] + opponent_piece_height][move[1]].side != @current_player.side
+    is_opponent_side_pawn = @board[opponent_piece_height][move[1]].instance_of?(Pawn) &&
+                            @board[opponent_piece_height][move[1]].side != @current_player.side
 
     move_to_empty_square && is_opponent_side_pawn
   end
@@ -200,10 +198,10 @@ class Chess
     [piece_pos, piece_end, piece]
   end
 
-  def end_game
+  def end_game(opponent_side)
     end_game_messages = {
-      checkmate?(opponent_side) => GameMessages::GAME_ENDING_TEXT,
-      stalemate?(opponent_side) => GameMessages::STALEMATE_TEXT
+      stalemate?(opponent_side) => GameMessages::STALEMATE_TEXT,
+      checkmate?(opponent_side) => GameMessages::GAME_ENDING_TEXT
     }
 
     end_game_messages.each do |condition, message|
