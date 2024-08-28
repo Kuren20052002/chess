@@ -91,10 +91,12 @@ class Chess
       piece_pos, piece_end, piece = retrieve_piece_and_position
     end
 
-    return @board.en_passant([piece_pos, piece_end], @current_player.side) if en_passant?(piece_end)
+    return @board.en_passant([piece_pos, piece_end], @current_player.side) if piece.instance_of?(Pawn) &&
+                                                                              en_passant?(piece_end)
 
     until piece && valid_piece?(piece, piece_end) && move_prevent_check.call([piece_pos, piece_end])
-      return @board.en_passant([piece_pos, piece_end], @current_player.side) if en_passant?(piece_end)
+      return @board.en_passant([piece_pos, piece_end], @current_player.side) if piece.instance_of?(Pawn) &&
+                                                                                en_passant?(piece_end)
 
       puts GameMessages::INVALID_MOVE_MESSAGE
       piece_pos, piece_end, piece = retrieve_piece_and_position
