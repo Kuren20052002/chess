@@ -1,6 +1,7 @@
 require_relative "piece"
+require "pry-byebug"
 class Pawn < Piece
-  attr_reader :en_passantable
+  attr_accessor :en_passantable
 
   def initialize(row, column, side)
     super
@@ -10,7 +11,7 @@ class Pawn < Piece
   def valid_move?(move, board)
     result = false
     avaiable_move, avaiable_capture = legal_moves
-    result = false unless avaiable_move.include?(move) && avaiable_capture.include?(move)
+    return false unless avaiable_move.include?(move) || avaiable_capture.include?(move)
 
     avaiable_move.each do |row, column|
       break if result || board[row][column] != " "
@@ -21,9 +22,11 @@ class Pawn < Piece
     avaiable_capture.each do |row, column|
       break if result
 
+      result = true if en_passant?(move, board) # check if it can en passant other
       result = true if move == [row, column] && board[row][column] != " " && board[row][column].side != @side
     end
-    @en_passantable = move == avaiable_move[1] if result
+
+    check_enpassant(move, board) if result # check if itself can be en passanted
     result
   end
 
@@ -43,5 +46,23 @@ class Pawn < Piece
     ]
 
     [legal_moves, legal_captures]
+  end
+
+  def en_passant?(move, board)
+    height_difference = @side == "white" ? -1 : 1
+    below_piece = board[move[0] + height_difference][move[1]]
+    below_piece.instance_of?(Pawn) && below_piece.en_passantable
+  end
+
+  def check_enpassant(move, board)
+    left_adjacent = board[move[0]][move[1] - 1]
+    right_adjacent = board[move[0]][move[1] + 1]
+    row_end = @side == "white" ? 3 : 4
+
+    is_adjacent_pawn = left_adjacent.instance_of?(Pawn) || right_adjacent.instance_of?(Pawn)
+    is_left_same_side = left_adjacent == " " ? false : left_adjacent.side != @side
+    is_right_same_side = right_adjacent == " " ? false : right_adjacent.side != @side
+
+    @en_passantable = is_adjacent_pawn && (is_left_same_side || is_right_same_side) && ((move[0] - @row).abs == 2)
   end
 end

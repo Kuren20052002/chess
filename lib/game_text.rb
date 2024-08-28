@@ -12,6 +12,8 @@ module GameMessages
     Here are the basic rules:
     - Move your pieces according to their unique movement patterns.
     - To make a move, enter the starting and ending positions of the piece (e.g., 'e2 e4').
+    - Type 'board' to see the board.
+    - Type 'help' to get instrucstions.
     - Type 'quit' to exit the game at any time.
     - Type 'O-O-O' to castle long.
     - Type 'O-O' to castle short.

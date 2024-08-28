@@ -1,6 +1,6 @@
 require_relative "piece"
 class King < Piece
-  attr_reader :moveds
+  attr_reader :moved
 
   def initialize(row, column, side)
     super

@@ -55,14 +55,22 @@ class Board
     false
   end
 
-  def castle_long
-    move_piece([0, 4], [0, 2])
-    move_piece([0, 0], [0, 3])
+  def castle_long(side)
+    castle_row = side == "white" ? 0 : 7
+    move_piece([castle_row, 4], [castle_row, 2])
+    move_piece([castle_row, 0], [castle_row, 3])
   end
 
-  def castle_short
-    move_piece([0, 4], [0, 6])
-    move_piece([0, 7], [0, 5])
+  def castle_short(side)
+    castle_row = side == "white" ? 0 : 7
+    move_piece([castle_row, 4], [castle_row, 6])
+    move_piece([castle_row, 7], [castle_row, 5])
+  end
+
+  def en_passant(move, side)
+    opponent_piece_height = side == "white" ? 4 : 3
+    move_piece(move[0], move[1])
+    @squares[opponent_piece_height][move[1][1]] = " "
   end
 
   def [](row, column = nil)
