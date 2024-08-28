@@ -1,5 +1,23 @@
 require_relative "piece"
 class Queen < Piece
+  def legal_moves
+    legal_moves = []
+    directions = [[0, -1], [1, 0], [0, 1], [-1, 0], [-1, -1], [1, -1], [1, 1], [-1, 1]]
+    directions.each do |row_direction, column_direction|
+      row = @row
+      column = @column
+
+      loop do
+        row += row_direction
+        column += column_direction
+        break if row < 0 || row > 7 || column < 0 || column > 7
+
+        legal_moves << [row, column]
+      end
+    end
+    legal_moves
+  end
+
   def valid_move?(move, board)
     directions = [[0, -1], [1, 0], [0, 1], [-1, 0], [-1, -1], [1, -1], [1, 1], [-1, 1]]
     directions.each do |row_direction, column_direction|
