@@ -1,4 +1,5 @@
 require "yaml"
+require "pry-byebug"
 require_relative "board"
 require_relative "player"
 require_relative "game_text"
@@ -46,6 +47,17 @@ class Chess
     true
   end
 
+  def stalemate?(side)
+    opponent_side = side == "white" ? "black" : "white"
+    @board.display
+    @board.pieces(opponent_side).each do |piece|
+      piece.legal_moves.each do |move|
+        return false if piece.valid_move?(move, @board) # check all possible move and return false if it valid
+      end
+    end
+    true
+  end
+
   private
 
   def new_game
@@ -56,15 +68,11 @@ class Chess
   def play_game
     puts GameMessages::INSTRUCTIONS
     loop do
-      binding.pry
       check_for_check(@current_player.side) ? handle_check : handle_turn
 
       opponent_side = @current_player.side == "white" ? "black" : "white"
 
-      if checkmate?(opponent_side)
-        puts GameMessages::GAME_ENDING_TEXT
-        break
-      end
+      return end_game if stalemate?(@current_player.side) || checkmate?(opponent_side)
 
       change_turn
     end
@@ -188,6 +196,20 @@ class Chess
     piece_pos, piece_end = @current_player.make_move
     piece = @board[piece_pos[0]][piece_pos[1]] if piece_end
     [piece_pos, piece_end, piece]
+  end
+
+  def end_game
+    end_game_messages = {
+      checkmate?(opponent_side) => GameMessages::GAME_ENDING_TEXT,
+      stalemate?(opponent_side) => GameMessages::STALEMATE_TEXT
+    }
+
+    end_game_messages.each do |condition, message|
+      if condition
+        puts message
+        break
+      end
+    end
   end
 
   def change_turn

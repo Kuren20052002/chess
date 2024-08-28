@@ -77,6 +77,10 @@ class Board
     column ? @squares[row][column] : @squares[row]
   end
 
+  def []=(row, column, piece)
+    @squares[row][column] = piece
+  end
+
   def pieces(side)
     pieces = []
     @squares.each do |row|
