@@ -131,6 +131,11 @@ class Board
     @squares[7][4] = @black_king
   end
 
+  def find_kings
+    pieces("white").each { |piece| @white_king = piece if piece.instance_of?(King) }
+    pieces("black").each { |piece| @black_king = piece if piece.instance_of?(King) }
+  end
+
   def deep_copy
     Marshal.load(Marshal.dump(self))
   end
