@@ -25,7 +25,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Kuren20052002/chess">
-    <img src="./chess.jpg" alt="Logo" width="80" height="80">
+    <img src="https://static.vecteezy.com/system/resources/previews/017/709/383/non_2x/black-color-chess-piece-set-free-vector.jpg" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Chess with Ruby</h3>
